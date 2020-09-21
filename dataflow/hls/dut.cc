@@ -5,17 +5,17 @@ void proc_a(
     hls::stream<pix_unit_t>     &chan_in,
     hls::stream<pix_unit_t>     &chan_out)
 {
-    for (int row = 0; row < 8; row++) {
+    ROW: for (int row = 0; row < 8; row++) {
 #pragma HLS PIPELINE
         pix_unit_t  unit = chan_in.read();
 #pragma HLS ARRAY_PARTITION variable=unit.data complete dim=1
 
-        for (int i=0; i < 8; i++) {
+        COL: for (int i=0; i < 8; i++) {
 #pragma HLS UNROLL
             unit.data[i] += 1;
         }
 
-        // write data to the ouput channel
+        // write data to the output channel
         chan_out.write(unit);
     }
 }
@@ -27,18 +27,18 @@ void proc_b(
     // OUT
     uint8                       mem[2][8][8])
 {
-    for (int row = 0; row < 8; row++) {
+    ROW: for (int row = 0; row < 8; row++) {
 #pragma HLS PIPELINE
         pix_unit_t  unit = chan_in.read();
 #pragma HLS ARRAY_PARTITION variable=unit.data complete dim=1
 
-        for (int i=0; i < 8; i++) {
+        COL: for (int i=0; i < 8; i++) {
 #pragma HLS UNROLL
             unit.data[i] += 1;
         }
 
-        // write data to the ouput memory
-        for (int i=0; i < 8; i++) {
+        // write data to the output memory
+        MEM_WR: for (int i=0; i < 8; i++) {
 #pragma HLS UNROLL
             mem[mem_id][row][i] = unit.data[i];
         } 
@@ -51,6 +51,8 @@ void dut(
     // OUT
     uint8                       mem[2][8][8])
 {
+#pragma HLS DATA_PACK variable=chan_in
+#pragma HLS ARRAY_RESHAPE variable=mem cyclic factor=8 dim=3
     for (int i=0; i < 2; i++) {
 #pragma HLS DATAFLOW
         hls::stream<pix_unit_t>     fifo_unit;
