@@ -71,17 +71,20 @@ void dut(
     hls::stream<pix_unit_t>     &chan_out_b,
     hls::stream<pix_unit_t>     &chan_out)
 {
-#pragma HLS DATAFLOW
 #pragma HLS DATA_PACK variable=chan_out
 #pragma HLS DATA_PACK variable=chan_in
-    hls::stream<pix_unit_t>     fifo_unit1;
+
+    for (int i=0; i < 4; i++) {
+#pragma HLS DATAFLOW
+        hls::stream<pix_unit_t>     fifo_unit1;
 #pragma HLS DATA_PACK variable=fifo_unit1
-    hls::stream<pix_unit_t>     fifo_unit2;
+        hls::stream<pix_unit_t>     fifo_unit2;
 #pragma HLS DATA_PACK variable=fifo_unit2
 
-    proc_a(chan_in, fifo_unit1);
+        proc_a(chan_in, fifo_unit1);
 
-    proc_b(fifo_unit1, fifo_unit2, chan_out_b);
+        proc_b(fifo_unit1, fifo_unit2, chan_out_b);
 
-    proc_c(fifo_unit2, chan_out);
+        proc_c(fifo_unit2, chan_out);
+    }
 }
