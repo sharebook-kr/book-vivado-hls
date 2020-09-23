@@ -24,7 +24,8 @@ void proc_b(
     // IN
     hls::stream<pix_unit_t>     &chan_in,
     // OUT
-    hls::stream<pix_unit_t>     &chan_out)
+    hls::stream<pix_unit_t>     &chan_out,
+    hls::stream<pix_unit_t>     &chan_out_to_top)
 {
     for (int row = 0; row < 8; row++) {
 #pragma HLS PIPELINE
@@ -38,6 +39,7 @@ void proc_b(
 
         // write data to the ouput channel
         chan_out.write(unit);
+        chan_out_to_top.write(unit);
     }
 }
 
@@ -66,6 +68,7 @@ void dut(
     // IN
     hls::stream<pix_unit_t>     &chan_in,
     // OUT
+    hls::stream<pix_unit_t>     &chan_out_b,
     hls::stream<pix_unit_t>     &chan_out)
 {
 #pragma HLS DATAFLOW
@@ -78,7 +81,7 @@ void dut(
 
     proc_a(chan_in, fifo_unit1);
 
-    proc_b(fifo_unit1, fifo_unit2);
+    proc_b(fifo_unit1, fifo_unit2, chan_out_b);
 
     proc_c(fifo_unit2, chan_out);
 }

@@ -12,6 +12,7 @@ void dut(
     // IN
     hls::stream<pix_unit_t>     &chan_in,
     // OUT
+    hls::stream<pix_unit_t>     &chan_out_b,
     hls::stream<pix_unit_t>     &chan_out);
 
 #endif 

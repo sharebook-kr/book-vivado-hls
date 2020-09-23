@@ -7,6 +7,7 @@ using namespace std;
 int main(void) 
 {
     hls::stream<pix_unit_t>         chan_in;
+    hls::stream<pix_unit_t>         chan_out_b;
     hls::stream<pix_unit_t>         chan_out;
     uint8                           mem[2][8][8];       // two 8x8 blocks
 
@@ -29,8 +30,19 @@ int main(void)
         // IN
         chan_in,
         // OUT
+        chan_out_b,
         chan_out 
     );
+
+    while (!chan_out_b.empty()) {
+        pix_unit_t unit = chan_out_b.read();
+
+        for (int i =0; i < 8; i++) {
+            cout.width(3);
+            cout << unit.data[i] << " "; 
+        }
+        cout << endl;
+    }
 
     while (!chan_out.empty()) {
         pix_unit_t unit = chan_out.read();
