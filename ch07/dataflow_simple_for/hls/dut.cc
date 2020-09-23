@@ -15,7 +15,7 @@ void proc_a(
             unit.data[i] += 1;
         }
 
-        // write data to the ouput channel
+        // write data to the output channel
         chan_out.write(unit);
     }
 }
@@ -36,7 +36,7 @@ void proc_b(
             unit.data[i] += 1;
         }
 
-        // write data to the ouput channel
+        // write data to the output channel
         chan_out.write(unit);
     }
 }
@@ -57,7 +57,7 @@ void proc_c(
             unit.data[i] += 1;
         }
 
-        // write data to the ouput channel
+        // write data to the output channel
         chan_out.write(unit);
     }
 }
@@ -68,17 +68,19 @@ void dut(
     // OUT
     hls::stream<pix_unit_t>     &chan_out)
 {
-#pragma HLS DATAFLOW
 #pragma HLS DATA_PACK variable=chan_out
 #pragma HLS DATA_PACK variable=chan_in
+    for (int i =0; i < 4; i++) {
+#pragma HLS DATAFLOW
     hls::stream<pix_unit_t>     fifo_unit1;
 #pragma HLS DATA_PACK variable=fifo_unit1
     hls::stream<pix_unit_t>     fifo_unit2;
 #pragma HLS DATA_PACK variable=fifo_unit2
 
-    proc_a(chan_in, fifo_unit1);
+        proc_a(chan_in, fifo_unit1);
 
-    proc_b(fifo_unit1, fifo_unit2);
+        proc_b(fifo_unit1, fifo_unit2);
 
-    proc_c(fifo_unit2, chan_out);
+        proc_c(fifo_unit2, chan_out);
+    }
 }
