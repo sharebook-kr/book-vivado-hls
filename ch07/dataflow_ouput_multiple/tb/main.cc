@@ -12,7 +12,7 @@ int main(void)
     uint8                           mem[2][8][8];       // two 8x8 blocks
 
     // feeding 
-    for (int block=0; block < 1; block++) {
+    for (int block=0; block < 4; block++) {
         for (int row=0; row < 8; row++) {
             pix_unit_t unit;
 
