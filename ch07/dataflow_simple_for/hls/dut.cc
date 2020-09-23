@@ -6,7 +6,7 @@ void proc_a(
     hls::stream<pix_unit_t>     &chan_out)
 {
     for (int row = 0; row < 8; row++) {
-#pragma HLS PIPELINE
+#pragma HLS PIPELINE rewind
         pix_unit_t  unit = chan_in.read();
 #pragma HLS ARRAY_PARTITION variable=unit.data complete dim=1
 
@@ -27,7 +27,7 @@ void proc_b(
     hls::stream<pix_unit_t>     &chan_out)
 {
     for (int row = 0; row < 8; row++) {
-#pragma HLS PIPELINE
+#pragma HLS PIPELINE rewind
         pix_unit_t  unit = chan_in.read();
 #pragma HLS ARRAY_PARTITION variable=unit.data complete dim=1
 
@@ -48,7 +48,7 @@ void proc_c(
     hls::stream<pix_unit_t>     &chan_out)
 {
     for (int row = 0; row < 8; row++) {
-#pragma HLS PIPELINE
+#pragma HLS PIPELINE rewind
         pix_unit_t  unit = chan_in.read();
 #pragma HLS ARRAY_PARTITION variable=unit.data complete dim=1
 
@@ -70,11 +70,12 @@ void dut(
 {
 #pragma HLS DATA_PACK variable=chan_out
 #pragma HLS DATA_PACK variable=chan_in
+
     for (int i =0; i < 4; i++) {
 #pragma HLS DATAFLOW
-    hls::stream<pix_unit_t>     fifo_unit1;
+    	hls::stream<pix_unit_t>     fifo_unit1;
 #pragma HLS DATA_PACK variable=fifo_unit1
-    hls::stream<pix_unit_t>     fifo_unit2;
+    	hls::stream<pix_unit_t>     fifo_unit2;
 #pragma HLS DATA_PACK variable=fifo_unit2
 
         proc_a(chan_in, fifo_unit1);
