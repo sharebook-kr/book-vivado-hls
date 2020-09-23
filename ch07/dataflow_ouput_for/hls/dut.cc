@@ -6,7 +6,7 @@ void proc_a(
     hls::stream<pix_unit_t>     &chan_out)
 {
     for (int row = 0; row < 8; row++) {
-#pragma HLS PIPELINE
+#pragma HLS PIPELINE rewind
         pix_unit_t  unit = chan_in.read();
 #pragma HLS ARRAY_PARTITION variable=unit.data complete dim=1
 
@@ -28,7 +28,7 @@ void proc_b(
     hls::stream<pix_unit_t>     &chan_out_to_top)
 {
     for (int row = 0; row < 8; row++) {
-#pragma HLS PIPELINE
+#pragma HLS PIPELINE rewind
         pix_unit_t  unit = chan_in.read();
 #pragma HLS ARRAY_PARTITION variable=unit.data complete dim=1
 
@@ -50,7 +50,7 @@ void proc_c(
     hls::stream<pix_unit_t>     &chan_out)
 {
     for (int row = 0; row < 8; row++) {
-#pragma HLS PIPELINE
+#pragma HLS PIPELINE rewind
         pix_unit_t  unit = chan_in.read();
 #pragma HLS ARRAY_PARTITION variable=unit.data complete dim=1
 
