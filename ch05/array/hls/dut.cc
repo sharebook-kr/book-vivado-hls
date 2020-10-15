@@ -6,20 +6,18 @@ void dut(
     // OUT
     hls::stream<org_unit_t>     &chan_out)
 {
+#pragma HLS PIPELINE II=1 rewind
 #pragma HLS DATA_PACK variable=chan_in
 #pragma HLS DATA_PACK variable=chan_out
 
-#ifndef __SYNTHESIS__
-    while (!chan_in.empty()) {
-#endif
-        org_unit_t data;
-#pragma HLS ARRAY_RESHAPE variable=data.org complete dim=1
+    org_unit_t data;
+    data = chan_in.read();
 
-        data = chan_in.read();
-        chan_out.write(data);
-
-#ifndef __SYNTHESIS__
+    for (int i=0; i < 8; i++) {
+#pragma HLS UNROLL
+        data.org[i] = data.org[i]+1;
     }
-#endif   
+
+    chan_out.write(data);
 }
 
