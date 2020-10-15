@@ -1,2 +1,7 @@
 vivado/hls_prj
 vivado/*.log
+build/CMakeFiles
+build/*.cmake 
+build/CMakeCache.txt
+build/Makefile
+build/run
