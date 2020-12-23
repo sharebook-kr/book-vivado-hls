@@ -1,0 +1,6 @@
+**/vivado/hls_prj
+**/build/CMakeFiles
+**/build/CMakeCache.txt
+**/build/cmake_install.cmake
+**/build/run
+**/vivado/*.log

@@ -76,9 +76,9 @@ void dut(
 
     for (int i=0; i < 4; i++) {
 #pragma HLS DATAFLOW
-        hls::stream<pix_unit_t>     fifo_unit1;
+        static hls::stream<pix_unit_t>     fifo_unit1;
 #pragma HLS DATA_PACK variable=fifo_unit1
-        hls::stream<pix_unit_t>     fifo_unit2;
+        static hls::stream<pix_unit_t>     fifo_unit2;
 #pragma HLS DATA_PACK variable=fifo_unit2
 
         proc_a(chan_in, fifo_unit1);
