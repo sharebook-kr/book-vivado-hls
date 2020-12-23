@@ -3,4 +3,5 @@
 **/build/CMakeCache.txt
 **/build/cmake_install.cmake
 **/build/run
+**/build/Makefile
 **/vivado/*.log
